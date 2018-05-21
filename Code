@@ -1,1 +1,172 @@
-
+//General Coding
+onEvent("BeginBtn", "click", function(event) {
+  setScreen("GameScreen");
+  showElement("Meadow");
+  showElement("MFScenario1");
+  hideElement("MFScenario2");
+});
+var Choice = 0;
+var Solution = 0;
+var Eat = 0;
+var Wait = 1;
+var Run = 2;
+var Defend = 3;
+var Fight = 4;
+onEvent("AgainBtn", "click", function(event) {
+  setScreen("StartScreen");
+  var Choice = 0;
+  var Solution = 0;
+  var Eat = 0;
+  var Wait = 1;
+  var Run = 2;
+  var Defend = 3;
+  var Fight = 4;
+  showElement("Meadow");
+  showElement("MFScenario1");
+  hideElement("MFScenario2");
+  setText("LevelLbl", "Level 1: Meadow");
+});
+onEvent("HomeBtn", "click", function(event) {
+  setScreen("StartScreen");
+  var Choice = 0;
+  var Solution = 0;
+  var Eat = 0;
+  var Wait = 1;
+  var Run = 2;
+  var Defend = 3;
+  var Fight = 4;
+  showElement("Meadow");
+  showElement("MFScenario1");
+  hideElement("MFScenario2");
+  setText("LevelLbl", "Level 1: Meadow");
+});
+;
+//Options
+SurvivalChoice();
+function SurvivalChoice() {
+  onEvent("RunBtn", "click", function(event) {
+    Choice = Run;
+  });
+  onEvent("FightBtn", "click", function(event) {
+    Choice = Fight;
+  });
+  onEvent("EatBtn", "click", function(event) {
+    Choice = Eat;
+  });
+  onEvent("DefendBtn", "click", function(event) {
+    Choice = Defend;
+  });
+  onEvent("WaitBtn", "click", function(event) {
+    Choice = Wait;
+  });
+  OtherOption();
+  function OtherOption() {
+    hideElement("EatBtn");
+    hideElement("DefendBtn");
+    hideElement("WaitBtn");
+    hideElement("XBtn");
+    onEvent("OtherBtn", "click", function(event) {
+      showElement("EatBtn");
+      showElement("DefendBtn");
+      showElement("WaitBtn");
+      showElement("XBtn");
+    });
+    onEvent("XBtn", "click", function(event) {
+      hideElement("EatBtn");
+      hideElement("DefendBtn");
+      hideElement("WaitBtn");
+      hideElement("XBtn");
+    });
+  }
+}
+;
+//Scenario Order
+Scenarios();
+function Scenarios() {
+  MFScenarios();
+  ForestScenarios();
+  TundraScenarios();
+  function MFScenarios() {
+    onEvent("MFScenario1", "click", function(event) {
+      Scenario1();
+      function Scenario1() {
+        Solution = Defend;
+        if (Solution == Choice) {
+          hideElement("MFScenario1");
+          showElement("MFScenario2");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+    onEvent("MFScenario2", "click", function(event) {
+      Scenario2();
+      function Scenario2() {
+        Solution = Wait;
+        if (Solution == Choice) {
+          hideElement("MFScenario2");
+          hideElement("Meadow");
+          showElement("Forest");
+          setText("LevelLbl", "Level 2: Forest");
+          showElement("ForestScenario1");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+  }
+  function ForestScenarios() {
+    onEvent("ForestScenario1", "click", function(event) {
+      Scenario3();
+      function Scenario3() {
+        Solution = Run;
+        if (Solution == Choice) {
+          hideElement("ForestScenario1");
+          showElement("ForestScenario2");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+    onEvent("ForestScenario2", "click", function(event) {
+      Scenario4();
+      function Scenario4() {
+        Solution = Fight;
+        if (Solution == Choice) {
+          setText("LevelLbl", "Level 3: Arctic Tundra");
+          showElement("Tundra");
+          hideElement("Forest");
+          hideElement("ForestScenario2");
+          showElement("TundraScenario1");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+  }
+  function TundraScenarios() {
+    onEvent("TundraScenario1", "click", function(event) {
+      Scenario5();
+      function Scenario5() {
+        Solution = Eat;
+        if (Solution == Choice) {
+          hideElement("TundraScenario1");
+          showElement("TundraScenario2");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+    onEvent("TundraScenario2", "click", function(event) {
+      Scenario6();
+      function Scenario6() {
+        Solution = Fight;
+        if (Solution == Choice) {
+          setScreen("WinScreen");
+        } else {
+          setScreen("GameOverScreen");
+        }
+      }
+    });
+  }
+}
